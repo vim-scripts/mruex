@@ -1,0 +1,20 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=554
+
+mruex.vim maintains a list (in a file called mrulist) of your most recently used files. mruex.vim presents an explorer-like interface to mrulist so that you can easily open your MRU files. Duplicates and files that are no longer readable are pruned from mrulist whenever an entry is added to mrulist. If you have several instances of Vim running simultaneously, each update to the mrulist becomes available immediately in all the Vim instances. 
+
+Usage:
+A mrulist window is opened by the command :RSplit or <Leader>r where <Leader> is \ by default. Five commands are available in the mrulist window:
+Key         Action:
+h              Toggle help
+Enter       Open file
+o              Open file in new window
+d              Delete entry (not file)
+q              Close mrulist window
+
+Customization is done via five Vim variables. mruex_key (default '<Leader>r')	is the key to open the mrulist window, mruex_win_height (default 6) is the height of the mrulist window, mruex_max_entries (default 20) is the maximum number of MRU file names to keep in mrulist excluding duplicates, mruex_type (default 'w') controls the meaning of most recently used. 'w' indicates: Add file to mrulist whenever it is 	written (saved) to disk. 'e' indicates: add file to mrulist whenever it is entered, and mruex_filter (default '') is a Vim regular expression defining files to be excluded from the mrulist. mruex_relative =1 or 0 determines  whether or not the file paths in the mrulist are relative to $HOME. 
+The default is mruex_relative=1 for unix systems and 0 for others.
+Examples:
+	let mruex_filter='d:\\temp\&#039
+in your vimrc excludes files in the d:\temp\ directory from the mrulist.
+	let mruex_key='<f3>'
+in your vimrc sets F3 as the key that opens the mrulist window.
