@@ -1,7 +1,7 @@
 " mruex.vim - Explore your MRU (Most Recently Used) files {{{
 " Author: Ajit J. Thakkar (ajit AT unb DOT ca)
-" Last Change:	2003 Apr. 03
-" Version: 1.3
+" Last Change:	2003 May 07
+" Version: 1.4
 " Credits: Ivan Tarasov - saving and restoring numbered registers in MruUpdate
 
 " mruex.vim maintains a list (in a file called mrulist) of your most recently
@@ -33,6 +33,8 @@
 " 					mrulist whenever it is entered.
 " mruex_filter		''		Vim regular expression defining files
 " 					to be excluded from the mrulist
+" mruex_relative	1 for Unix	File paths in mrulist relative to $HOME
+" 			0 otherwise	Absolute file paths in mrulist
 " Examples:
 " 	let mruex_filter='d:\\temp\\'
 " in your vimrc excludes files in the d:\temp\ directory from the mrulist.
@@ -72,6 +74,14 @@ fun! s:MruInit()
     let s:win_height=g:mruex_win_height
   else
     let s:win_height=6
+  endif
+  " Reduce file paths to be relative to $HOME?
+  if !exists('g:mruex_relative')
+    if has("unix")
+      let g:mruex_relative=1
+    else
+      let g:mruex_relative=0
+    endif
   endif
   " Map to open mrulist window
   if !exists('g:mruex_key')
@@ -251,7 +261,11 @@ fun! s:MruUpdate(wipe)
       return
     endif
   endif
-  let name=expand("%:p:~")
+  if g:mruex_relative > 0
+    let name=expand("%:p:~")
+  else
+    let name=expand("%:p")
+  endif
   " Move to existing mruex window or open one
   let u_lz=&lz
   set lz
